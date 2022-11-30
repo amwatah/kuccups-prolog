@@ -1,0 +1,381 @@
+~Introductory text.
+
+introduction is
+
+'\t\t JAB SELECTION PREDICTOR. ',
+'\t\t--------------------------\n',
+'\t\t This case based reasoning system',
+'\t\t predicts the COURSE that a form 4 leaver',
+'\t\t is likely to be admitted to.\n ',
+	
+'\t\t P15/3095/04: AKINYI JULIANNE ANYIM',
+'\t\t P15/3084/04: KENDI H. EDNA',
+'\t\t P15/3085/04: PAPU QUENTIN'
+
+end;
+
+~Definition of the types and the weights of the fields
+~ that appear in each case.Used for typechecking input
+~cases while the weights are used to aid the case-matching process.
+
+case definition is
+
+	field academic_year type is (y2004_2005,y2005_2006,y2006_2007,
+					y2007_2008) 
+		weight is 5
+		prompt is ['Enter the academic year to use :'];
+
+
+	field choice1 type is (B_Medicine, Pharmacy, D_Surgercy, Nursing, 
+				Actuarial, Architecture, Elec_Eng, Mech_Eng,
+				Civil_Eng, Comp_Science, B_com, B_ED, Vet_Med,
+				BA, BSc, Law, Agric_ED, Building_Econ,Food_Sci) weight is 10
+	prompt is ['Enter your 1st Choice:  '];
+
+	
+
+
+	field choice2 type is (Nursing,	Civil_Eng,B_com, B_ED, Vet_Med,
+				BA,Agric_ED,BSc, Building_Econ,Food_Sci) weight is 7
+	prompt is ['Enter your 2nd Choice:  '];
+
+
+
+	field choice3 type is (B_ED, BA, Agric_ED,Food_Sci) weight is 5
+	prompt is ['Enter your 3rd Choice:  '];
+
+
+
+
+	
+	field mean_grade type is (Aplain, Aminus, Bplus, Bplain, Bminus, Cplus, fail) 
+		weight is 3
+		prompt is ['Enter the mean grade:'];
+
+	field subject1 type is (math, eng, swa, bio, chem, phy, cre, see, geog, acc)
+		weight is 0
+		prompt is ['Enter subject:'];
+	field subject1_value type is (Aplain, Aminus, Bplus, Bplain, Bminus, Cplus)
+		weight is 0
+		prompt is['Enter grade:'];
+
+	
+	field subject2 type is (math, eng, swa, bio, chem, phy, cre, see, geog, acc)
+		weight is 0
+		prompt is ['Enter subject:'];
+	field subject2_value type is (Aplain, Aminus, Bplus, Bplain, Bminus, Cplus)
+		weight is 0
+		prompt is['Enter grade:'];
+	
+	
+	field subject3 type is (math, eng, swa, bio, chem, phy, cre, see, geog, acc)
+		weight is 0
+		prompt is ['Enter subject:'];
+	field subject3_value type is (Aplain, Aminus, Bplus, Bplain, Bminus, Cplus)
+		weight is 0
+		prompt is['Enter grade:'];
+	
+	field subject4 type is (math, eng, swa, bio, chem, phy,cre, see, geog, acc)
+		weight is 0
+		prompt is ['Enter subject:'];
+	field subject4_value type is (Aplain, Aminus, Bplus, Bplain, Bminus, Cplus)
+		weight is 0
+		prompt is['Enter grade:'];
+	
+	field subject5 type is (math, eng, swa, bio, chem, phy, cre, see, geog, acc)
+		weight is 0
+		prompt is ['Enter subject:'];
+	field subject5_value type is (Aplain, Aminus, Bplus, Bplain, Bminus, Cplus)
+		weight is 0
+		prompt is['Enter grade:'];
+	
+	field subject6 type is (math, eng, swa, bio, chem, phy, cre, see, geog, acc)
+		weight is 0
+		prompt is ['Enter subject:'];
+	field subject6_value type is (Aplain, Aminus, Bplus, Bplain, Bminus, Cplus)
+		weight is 0
+		prompt is['Enter grade:'];
+
+	
+	field subject7 type is (math, eng, swa, bio, chem, phy, cre, see, geog, acc)
+		weight is 0
+		prompt is ['Enter subject:'];
+	field subject7_value type is (Aplain, Aminus, Bplus, Bplain, Bminus, Cplus)
+		weight is 0
+		prompt is['Enter grade:'];
+end;
+
+index definition is
+
+	index on academic_year;
+	index on mean_grade;
+	
+
+end;
+
+modification definition is
+
+
+	abstraction subject is (grp1, grp2, grp3, grp4, grp5);
+
+	abstraction grp1 is (math,eng,swa);
+	abstraction grp2 is (chem, bio, phy);
+	abstraction grp3 is (hist, geog, cre, ire, hre, see);
+	abstraction grp4 is (homsci, artdesign, agric,
+			 woodwrk, metalwrk, bd, elec,
+				 dd, cs);
+	abstraction grp5 is (french, german, arabic, 
+				music, acc, com, 
+				econ, top);
+	
+	abstraction course is (Architecture, BA, BeD, 
+				Bcom, BSc, Medicine,
+				 Pharmacy);
+	abstraction fail is (Cplain, Cminus, Dplus, Dplain, Dminus, Eplain);
+	
+
+end;
+
+~Case instances.
+
+case instance case_0405_1 is
+
+	choice1 = Nursing;
+	choice2 = BSc;
+	choice3 = B_ED;
+
+	academic_year = y2005_2006;
+	mean_grade = Aminus;
+	subject1 =eng ;
+	subject1_value = Aplain;
+	subject2 = math;
+ 	subject2_value = Bplus;
+	subject3 = swa;
+	subject3_value = Bplus;
+	subject4 = bio;
+	subject4_value = Aplain;
+	subject5 = chem;
+	subject5_value = Aplain;
+	subject6 = phy;
+	subject6_value = Aplain;
+	subject7 = geog;
+	subject7_value = Aplain;
+
+solution is
+	course_selected = BSc;
+
+
+local repair rule definition is
+
+	
+	repair rule course_selection is
+		when
+			mean_grade is Cplus
+		then
+			change course_selected to  BA ;
+		end;
+
+
+end;
+
+case instance case_0405_2 is
+
+	academic_year = y2005_2006;
+	choice1 = B_Medicine;
+	choice2 = Nursing;
+	choice3 = B_ED;
+
+	mean_grade = Aplain;
+	subject1 = math;
+	subject1_value = Aplain;
+	subject2 = eng;
+	subject2_value = Bplain;
+	subject3 = swa;
+	subject3_value = Aplain;
+	subject4 = chem;
+	subject4_value = Aplain;
+	subject5 = bio;
+	subject5_value = Aplain;
+	subject6 = acc;
+	subject6_value = Aplain;
+	subject7 = cre;
+	subject7_value = Aplain;
+	
+solution is
+	course_selected = B_Medicine;
+
+end;
+
+
+case instance case_0405_3 is
+
+	academic_year = y2005_2006;
+	choice1 = B_Medicine;
+	choice2 = B_ED;
+	choice3 = BA;
+
+	mean_grade = Bplain;
+	subject1 = math;
+	subject1_value = Bplain;
+	subject2 = eng;
+	subject2_value = Cplus;
+	subject3 = swa;
+	subject3_value = Bplus;
+	subject4 = chem;
+	subject4_value = Aplain;
+	subject5 = bio;
+	subject5_value = Aminus;
+	subject6 = cre;
+	subject6_value = Aplain;
+	subject7 = see;
+	subject7_value = Aplain;
+
+solution is
+	course_selected = BA;
+
+end;
+
+case instance case_0405_4 is
+
+	academic_year = y2005_2006;
+	choice1 = Comp_Science;
+	choice2 = Nursing;
+	choice3 = B_ED;
+
+	mean_grade = Aplain;
+	subject1 = math;
+	subject1_value = Aplain;
+	subject2 = eng;
+	subject2_value = Bplain;
+	subject3 = swa;
+	subject3_value = Aplain;
+	subject4 = chem;
+	subject4_value = Aplain;
+	subject5 = bio;
+	subject5_value = Aplain;
+	subject6 = acc;
+	subject6_value = Aplain;
+	subject7 = cre;
+	subject7_value = Aplain;
+	
+solution is
+	course_selected = Comp_SCi;
+
+end;
+
+case instance case_0405_5 is
+
+	academic_year = y2005_2006;
+	choice1 = B_Medicine;
+	choice2 = Nursing;
+	choice3 = B_ED;
+
+	mean_grade = Bplus;
+	subject1 = math;
+	subject1_value = Aplain;
+	subject2 = eng;
+	subject2_value = Bplain;
+	subject3 = swa;
+	subject3_value = Bplain;
+	subject4 = chem;
+	subject4_value = Aplain;
+	subject5 = bio;
+	subject5_value = Bplain;
+	subject6 = acc;
+	subject6_value = Aplain;
+	subject7 = cre;
+	subject7_value = Bplus;
+	
+solution is
+	course_selected = B_Nursing;
+
+end;
+
+
+
+case instance case_0405_6 is
+
+	academic_year = y2005_2006;
+	choice1 = B_Medicine;
+	choice2 = Civil_Eng;
+	choice3 = B_ED;
+	mean_grade = Bplus;
+	subject1 = math;
+	subject1_value = Aplain;
+	subject2 = eng;
+	subject2_value = Aminus;
+	subject3 = swa;
+	subject3_value = Aminus;
+	subject4 = bio;
+	subject4_value = Bplain;
+	subject5 = chem;
+	subject5_value = Bplain;
+	subject6 = acc;
+	subject6_value = Aplain;
+	subject7 = see;
+	subject7_value = Bplus;
+
+solution is
+
+	course_selected = B_Nursing;
+
+end;
+
+case instance case_0405_7 is
+
+	academic_year = y2004_2005;
+	choice1 = Nursing;
+	choice2 = B_ED;
+	choice3 = BA;
+
+	mean_grade = Bplus;
+	subject1 = math;
+	subject1_value = Aplain;
+	subject2 = eng;
+	subject2_value = Aminus;
+	subject3 = swa;
+	subject3_value = Aminus;
+	subject4 = bio;
+	subject4_value = Bplain;
+	subject5 = chem;
+	subject5_value = Bplain;
+	subject6 = acc;
+	subject6_value = Aplain;
+	subject7 = see;
+	subject7_value = Bplus;
+
+solution is
+
+	course_selected = B_Nursing;
+
+end;
+
+case instance case_0405_8 is
+
+	academic_year = y2007_2008;
+	choice1 = Nursing;
+	choice2 = B_ED;
+	choice3 = BA;
+
+	mean_grade = Bplus;
+	subject1 = math;
+	subject1_value = Aplain;
+	subject2 = eng;
+	subject2_value = Aminus;
+	subject3 = swa;
+	subject3_value = Aminus;
+	subject4 = bio;
+	subject4_value = Bplain;
+	subject5 = chem;
+	subject5_value = Bplain;
+	subject6 = acc;
+	subject6_value = Aplain;
+	subject7 = see;
+	subject7_value = Bplus;
+
+solution is
+
+	course_selected = BA;
+
+end;
+
